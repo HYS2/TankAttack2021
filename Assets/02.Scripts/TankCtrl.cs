@@ -10,6 +10,9 @@ public class TankCtrl : MonoBehaviour
     public float speed = 10.0f;
     private PhotonView pv;
 
+    public Transform firePos;
+    public GameObject cannon;
+
     void Start()
     {
         tr = GetComponent<Transform>();
@@ -40,6 +43,19 @@ public class TankCtrl : MonoBehaviour
 
             tr.Translate(Vector3.forward * Time.deltaTime * speed * v);
             tr.Rotate(Vector3.up * Time.deltaTime * 100.0f * h);
+
+            // 버튼을 누르면 미사일 발사
+            if (Input.GetMouseButtonDown(0))
+            {
+                pv.RPC("Fire", RpcTarget.All, null);
+            }
         }
+    }
+
+    [PunRPC]
+    void Fire()
+    {
+        Instantiate(cannon, firePos.position, firePos.rotation);
+
     }
 }
