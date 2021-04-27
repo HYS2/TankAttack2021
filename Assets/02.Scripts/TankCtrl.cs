@@ -13,6 +13,8 @@ public class TankCtrl : MonoBehaviour
     public Transform firePos;
     public GameObject cannon;
 
+    public Transform cannonMesh;
+
     void Start()
     {
         tr = GetComponent<Transform>();
@@ -44,11 +46,16 @@ public class TankCtrl : MonoBehaviour
             tr.Translate(Vector3.forward * Time.deltaTime * speed * v);
             tr.Rotate(Vector3.up * Time.deltaTime * 100.0f * h);
 
-            // 버튼을 누르면 미사일 발사
+            // 버튼을 누르면 포탄 발사
             if (Input.GetMouseButtonDown(0))
             {
-                pv.RPC("Fire", RpcTarget.All, null);
+                // allviaserver : 서버에서 다같이 뿌리는거, all : 자기건 먼저 실행되면서 다른사람한테는 서버통해 전달
+                pv.RPC("Fire", RpcTarget.AllViaServer, null);
             }
+
+            // 포신 회전 설정
+            float r = Input.GetAxis("Mouse ScrollWheel");
+            cannonMesh.Rotate(Vector3.right * Time.deltaTime * r * 10000.0f);
         }
     }
 
