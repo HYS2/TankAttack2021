@@ -6,8 +6,8 @@ namespace UnityStandardAssets.Utility
 	{
 
 		// The target we are following
-		[SerializeField]
-		private Transform target;
+		// [SerializeField]
+		public Transform target;
 		// The distance in the x-z plane to the target
 		[SerializeField]
 		private float distance = 10.0f;
